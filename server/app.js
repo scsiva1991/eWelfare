@@ -6,7 +6,11 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const webpack = require('webpack');
+const webpackMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
 
+const config = require('../webpack.config.js');
 const appConf = require('../app.conf.json');
 const users = require('./routes/users');
 
@@ -30,7 +34,29 @@ app.use(cookieParser());
 app.use(expressValidator());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const compiler = webpack(config);
+const middleware = webpackMiddleware(compiler, {
+    publicPath: config.output.publicPath,
+    contentBase: 'src',
+    stats: {
+        colors: true,
+        hash: false,
+        timings: true,
+        chunks: false,
+        chunkModules: false,
+        modules: false
+    }
+});
+
+app.use(middleware);
+app.use(webpackHotMiddleware(compiler));
+
 app.use('/api/auth', users);
+
+app.use('/*', function response(req, res) {
+    res.write(middleware.fileSystem.readFileSync(path.join(__dirname, '../dist/index.html')));
+    res.end();
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
