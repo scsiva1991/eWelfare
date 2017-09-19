@@ -18,3 +18,11 @@ body {
   opacity: 0.6;
   background: #eee;
 }
+
+.app-bar {
+  background: #2BBBAD;
+}
+
+.logo {
+    margin: 6px;
+}

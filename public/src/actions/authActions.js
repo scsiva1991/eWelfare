@@ -3,9 +3,10 @@
 import { LOG_IN_USER, LOG_OUT_USER } from '../constants/actionTypes';
 import auth from '../api/auth';
 import jwtDecode from 'jwt-decode';
-import setAuthorizationToken from '../utils';
+import {setAuthorizationToken} from '../utils';
 
 export const loginUser = (user = {}) => {
+
   return {
     type: LOG_IN_USER,
     user

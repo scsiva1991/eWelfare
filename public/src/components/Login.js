@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { login } from '../actions/authActions';
 import AlertContainer from 'react-alert';
 import { alertOptions } from '../utils';
+import { Redirect, withRouter } from 'react-router-dom';
 
 class Login extends Component {
 
@@ -15,8 +16,8 @@ class Login extends Component {
       credentials: {
         email: '',
         password: ''
-      }, 
-      isLoading: false
+      },
+      isLoading: false 
     }
   }
 
@@ -26,6 +27,10 @@ class Login extends Component {
     this.setState({credentials});
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log('-- login ---', nextProps);
+  }
+
   login = (e) => {
     let _this = this;
     e.preventDefault();
@@ -33,15 +38,8 @@ class Login extends Component {
 
     this.props.login(this.state.credentials)
       .then(() => {
-
         this.setState({ isLoading: false });
-
-        _this.msg.show('Logged in successfully', {
-          type: 'success',
-          onClose: () => {
-            _this.props.history.push('/uyvghjyh');
-          }
-        })
+        this.props.history.push('/dashboard');
       }, (err) => {
 
         this.setState({ isLoading: false });
@@ -65,7 +63,9 @@ class Login extends Component {
 
   render() {
       let {isLoading, credentials} = this.state;
+
       return(
+
         <div className="container-fluid">
           <AlertContainer ref={a => this.msg = a} {...alertOptions} />
           {isLoading && <Loader/>}
@@ -96,4 +96,5 @@ class Login extends Component {
   }
 }
 
-export default connect(null, { login })(Login);
+
+export default withRouter(connect(null, { login })(Login));
