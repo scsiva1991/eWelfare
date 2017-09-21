@@ -31,12 +31,12 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 )
 
 export default (
-<App>
+
     <BrowserRouter >
       <div>
-        <Route exact component={ Login } path="/" />
-        <PrivateRoute path="/dashboard" component={Dashboard}/>
+      <App/>
+        <Route exact component={ Login } path="/" /> 
+        <PrivateRoute path="/dashboard/:tab" component={Dashboard}/>
       </div>
     </BrowserRouter>
-    </App>
 )

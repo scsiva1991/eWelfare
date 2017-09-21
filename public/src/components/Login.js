@@ -17,7 +17,7 @@ class Login extends Component {
         email: '',
         password: ''
       },
-      isLoading: false 
+      isLoading: false
     }
   }
 
@@ -39,7 +39,7 @@ class Login extends Component {
     this.props.login(this.state.credentials)
       .then(() => {
         this.setState({ isLoading: false });
-        this.props.history.push('/dashboard');
+        this.props.history.push('/dashboard/fundRequest');
       }, (err) => {
 
         this.setState({ isLoading: false });
@@ -71,7 +71,7 @@ class Login extends Component {
           {isLoading && <Loader/>}
           <div className="row">
             <form className="col m4 offset-m4 card login-container">
-              <h2 className="center-align"> E-Welfare </h2>
+              <h2 className="center-align"> I-Welfare </h2>
               <div className="row">
                 <div className="input-field col s12">
                   <input id="email" type="email" name="email" className="validate"

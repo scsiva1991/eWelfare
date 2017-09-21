@@ -10,9 +10,10 @@ import React from 'react';
 import {setAuthorizationToken} from './utils';
 import { loginUser } from './actions/authActions';
 import jwtDecode from 'jwt-decode';
+import $ from 'jquery';
 
-import 'materialize-css/dist/css/materialize.min.css';
-import 'materialize-css/dist/js/materialize.min.js';
+import materialize from 'materialize-css/dist/css/materialize.min.css';
+import materializeJs from 'materialize-css/dist/js/materialize.js';
 import '../stylesheets/style.css';
 
 const store = configureStore();

@@ -7,6 +7,7 @@ import { logout } from '../actions/authActions';
 import {PropTypes} from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -16,17 +17,23 @@ class App extends Component {
       this.props.logout();
   }
 
+  navigateToMenu = (tab) => {
+    console.log('@@@@@', tab, this.props);
+    this.props.history.push('/dashboard/'+tab);
+  }
+
   render() {
-    console.log('@@@@@@@', this.props.user);
+    console.log('--- App Container ---', this.props );
     return (
       <div>
-          { Object.keys(this.props.user).length > 0 ? <Header logout={this.logout}/> : ''}
+          { Object.keys(this.props.user).length > 0 ? <Header user={this.props.user} logout={this.logout}
+                                                      navigateToMenu={this.navigateToMenu}/> : ''}
 
           {this.props.children}
       </div>
     );
   }
-} 
+}
 
 const mapStateToProps = (state) => {
   return {
@@ -34,4 +41,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {logout})(App);
+export default withRouter(connect(mapStateToProps, {logout})(App));

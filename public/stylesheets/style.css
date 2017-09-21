@@ -26,3 +26,11 @@ body {
 .logo {
     margin: 6px;
 }
+
+.side-menu {
+  background: #fff;
+}
+
+#sidenav-overlay {
+  z-index: 100;
+}
