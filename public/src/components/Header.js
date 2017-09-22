@@ -9,6 +9,8 @@ export default class Header extends Component {
 
   componentDidMount() {
       $(".button-collapse").sideNav();
+      $('ul.tabs').tabs();
+      $('.dropdown-button').dropdown();
   }
 
 

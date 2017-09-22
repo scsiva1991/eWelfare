@@ -13,12 +13,9 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('../webpack.config.js');
 const appConf = require('../app.conf.json');
 const users = require('./routes/users');
+const funds = require('./routes/funds');
 
 let app = express();
-const options = {
-  user: 'admin',
-  pass: 'test1234'
-}
 mongoose.connect(appConf.mongodb);
 
 // view engine setup
@@ -52,6 +49,7 @@ app.use(middleware);
 app.use(webpackHotMiddleware(compiler));
 
 app.use('/api/auth', users);
+app.use('/api/funds', funds);
 
 app.use('/*', function response(req, res) {
     res.write(middleware.fileSystem.readFileSync(path.join(__dirname, '../dist/index.html')));

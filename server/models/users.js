@@ -23,6 +23,9 @@ const UserSchema = new Schema({
         type: Boolean,
         default: true
     },
+    accountnumber: {
+        type: String
+    },
     roles: {
         type:Array,
         default: ['User']

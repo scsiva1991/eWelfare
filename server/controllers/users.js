@@ -12,6 +12,7 @@ const getJWT = (user) => {
     });
 }
 
+
 const getValidToken = (user) => {
   user = user.toObject();
   delete user.password;
@@ -20,6 +21,7 @@ const getValidToken = (user) => {
   }
 }
 
+//Validating user details before signup
 const validateUser = (req, res, next) => {
   req.assert('email', 'Email address should not be empty').notEmpty();
   req.assert('username', 'User Name address should not be empty').notEmpty();
@@ -38,6 +40,7 @@ const validateUser = (req, res, next) => {
   })
 };
 
+//Validate user credentials before login
 const validateLogin = (req, res, next) => {
   req.assert('email', 'Email address should not be empty').notEmpty();
   req.assert('email', 'Enter a valid email.').isEmail();
@@ -55,10 +58,16 @@ const validateLogin = (req, res, next) => {
   })
 };
 
+const fetchUser = function (user, cb) {
+    User.findOne({
+        email: user.email
+    }, cb);
+}
+
 const login = (req, res, next) => {
-  User.findOne({
-    email: req.body.email
-  }, (err, user) => {
+    fetchUser({
+        email: req.body.email
+    }, (err, user) => {
     console.log( user, err);
 
     if( !user || err ) {
@@ -99,9 +108,53 @@ const signup = (req, res, next) => {
   })
 }
 
+//Check jwt token is valid
+const decodeToken = (data, cb) => {
+  let authorization, decoded;
+  if( data.headers && data.headers.authorization ) {
+    authorization = data.headers.authorization.split(' ')[1];
+    try {
+        decoded = jwt.verify(authorization, appConf.secret);
+    } catch (e) {
+        return cb(e);
+    }
+  }
+  cb(null, decoded);
+}
+
+const checkValidUser = (user, cb) => {
+    if (!user) {
+        return cb('Invalid Token');
+    }
+    fetchUser({
+        email: user.email
+    }, cb);
+}
+
+const isAuthenticated = (req, res, next) => {
+  async.waterfall([
+    decodeToken.bind(null, req),
+    checkValidUser
+  ], (err, user) => {
+    if (err) {
+        return res.status(401).send({
+            msg: 'User not authorized.. Please Login!!',
+            err: 'Unauthorized '
+        });
+    } else {
+        req.user = user;
+    }
+
+    next();
+  });
+}
+
+
+
 module.exports = {
   'validateUser': validateUser,
   'signup': signup,
   'validateLogin': validateLogin,
-  'login': login
+  'login': login,
+  'isAuthenticated': isAuthenticated
 }

@@ -2,8 +2,12 @@ body {
   background: #eee !important;
 }
 
-.login-container {
+.login-container, .fund-request-container {
   margin: 100px auto;
+}
+
+.fund-request-container {
+  padding: 20px !important;
 }
 
 .loader {

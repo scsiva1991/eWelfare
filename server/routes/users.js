@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var usersCtrl = require('../controllers/users');
+const usersCtrl = require('../controllers/users');
 
 router.post('/signup', usersCtrl.validateUser, usersCtrl.signup);
 router.post('/login', usersCtrl.validateLogin, usersCtrl.login);

@@ -3,11 +3,7 @@ import { withRouter } from 'react-router-dom';
 import FundRequest from '../components/FundRequest';
 
 export default class Dashboard extends Component {
-
-
-
-  render() {
-
+  render() { 
     console.log( '-- dashboard --', this.props );
 
     const tabName = this.props.match.params.tab;

@@ -5,8 +5,7 @@ import Header from '../components/Header';
 import { connect } from 'react-redux';
 import { logout } from '../actions/authActions';
 import {PropTypes} from 'prop-types';
-import { withRouter } from 'react-router-dom';
-
+import { withRouter } from 'react-router-dom'; 
 
 class App extends Component {
   constructor(props) {
