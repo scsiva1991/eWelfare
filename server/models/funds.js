@@ -7,12 +7,21 @@ const FundSchema = new Schema({
       type: Number,
       required: true
     },
+    returnedAmount: {
+      type: Number
+    },
+    fineAmount: {
+      type: Number,
+      default: 0
+    },
     sanctionedAmount: {
       type: Number
     },
     requestedDate: {
-      type: Date,
-      required: true
+      type: Date
+    },
+    returnedDate: {
+      type: Date
     },
     sanctionedDate: {
       type: Date

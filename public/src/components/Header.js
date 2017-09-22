@@ -26,11 +26,7 @@ export default class Header extends Component {
                {
                   "label":"Fund Request",
                   "name":"fundRequest"
-               },
-               {
-                  "label":"Check Status",
-                  "name":"checkRequest"
-               },
+               }, 
                {
                   "label":"Fund Process",
                   "name":"fundProcess"
@@ -49,10 +45,6 @@ export default class Header extends Component {
                {
                   "label":"Fund Request",
                   "name":"fundRequest"
-               },
-               {
-                  "label":"Check Status",
-                  "name":"checkRequest"
                }
              ];
     }

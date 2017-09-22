@@ -25,11 +25,7 @@ class Login extends Component {
     let credentials = this.state.credentials;
     credentials[e.target.name] = e.target.value;
     this.setState({credentials});
-  }
-
-  componentWillReceiveProps(nextProps) {
-    console.log('-- login ---', nextProps);
-  }
+  } 
 
   login = (e) => {
     let _this = this;
