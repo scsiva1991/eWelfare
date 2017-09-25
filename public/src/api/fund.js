@@ -13,13 +13,22 @@ const createFundRequest = (data) => {
 
 const getPendingRequest = (user) => {
   return axios.get(`/api/funds/getPendingRequest/${user._id}`)
-      .then((res) => {
+      .then((res) => { 
         if(res && res.data) {
           return res.data;
         }
       });
 };
 
+const getNewFundRequests = () => {
+  return axios.get('/api/funds/newFundRequests')
+    .then((res) => {
+      if(res && res.data) {
+        return res.data;
+      }
+    });
+}
 
 
-export default { createFundRequest, getPendingRequest };
+
+export default { createFundRequest, getPendingRequest, getNewFundRequests};

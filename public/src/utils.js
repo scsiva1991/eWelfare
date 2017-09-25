@@ -16,3 +16,26 @@ export const alertOptions = {
     time: 5000,
     transition: 'scale'
 }
+
+export const options = [
+  {
+    'label': 'Fund Returned',
+    'value': 'FUND_RETURNED'
+  },
+  {
+    'label': 'Fund Processed',
+    'value': 'FUND_PROCESSED'
+  },
+  {
+    'label': 'Fund Rejected',
+    'value': 'FUND_REJECTED'
+  },
+  {
+    'label': 'Fund Waitlisted',
+    'value': 'FUND_WAITLISTED'
+  },
+  {
+    'label': 'Fund Requested',
+    'value': 'FUND_REQUESTED'
+  }
+]

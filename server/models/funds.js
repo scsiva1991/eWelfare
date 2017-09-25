@@ -39,16 +39,14 @@ const FundSchema = new Schema({
       default: 'FUND_REQUESTED'
     },
     createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
+      type: {}
     },
     createdAt: {
       type: Date,
       default: Date.now
     },
     updatedBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
+      type: {} 
     },
     updatedAt: {
       type: Date,

@@ -6,7 +6,7 @@ export default class FundRequest extends Component {
     super(props);
     this.state = {
       fund: {
-        requestedAmount: 5000,
+        requestedAmount: 5000, 
         isEmergencyFund: false,
         comment: 'Hi Welfare Team, please process my fund request.',
         requestedDate: null,

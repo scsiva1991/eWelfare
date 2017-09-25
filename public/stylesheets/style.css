@@ -6,8 +6,46 @@ body {
   margin: 100px auto;
 }
 
+.fund-request-received-container {
+  margin: 200px auto;
+  padding: 20px !important;
+}
+
 .fund-request-container {
   padding: 20px !important;
+}
+
+.fund-process {
+  margin: 10px;
+  margin-top: 60px;
+  padding: 20px;
+}
+
+.fund-process-table { 
+}
+
+.custom_input:focus {
+  border-bottom: 1px solid #26a69a;
+  -webkit-box-shadow: 0 1px 0 0 #26a69a;
+  box-shadow: 0 1px 0 0 #26a69a;
+}
+
+.custom_input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #9e9e9e;
+  border-radius: 0;
+  outline: none;
+  height: 2rem;
+  width: 100%;
+  font-size: 1rem;
+  padding: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
 }
 
 .loader {

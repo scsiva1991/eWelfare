@@ -1,4 +1,5 @@
 'use-strict';
+const mongoose = require('mongoose');
 
 const Fund = require('../models/funds');
 
@@ -22,21 +23,32 @@ const validateFundRequest = (req, res, next) => {
 }
 
 const addComment = ( comment, user ) => {
-  return [{
+  return {
     comment: comment,
-    createdBy: user._id
-  }];
+    ownerId: user._id,
+    ownerName: user.username
+  };
+}
+
+const addCreator = ( user ) => {
+  return {
+    ownerId: user._id,
+    name: user.username
+  }
 }
 
 const makeFund = (data, user) => {
   console.log('makeFund', data, user);
   return new Fund({
       requestedAmount: data.requestedAmount,
+      sanctionedAmount: data.requestedAmount,
+      returnedAmount: data.requestedAmount,
       requestedDate: data.requestedDate,
+      sanctionedDate: null,
       isEmergencyFund: data.isEmergencyFund,
-      comments: addComment( data.comment , user ),
+      comments: [addComment( data.comment , user )],
       status: 'FUND_REQUESTED',
-      createdBy: user._id
+      createdBy: addCreator( user )
   })
 }
 
@@ -55,8 +67,9 @@ const createFundRequest = (req, res, next) => {
 }
 
 const getPendingRequest = (req, res, next) => {
+  console.log(req.params.id);
   Fund.findOne({
-    createdBy: req.params.id,
+    'createdBy.ownerId': mongoose.Types.ObjectId(req.params.id),
     status: { $nin: [ "FUND_RETURNED", "FUND_ABORTED" ] }
   }, (err, fund) => {
     if( err ) {
@@ -68,8 +81,22 @@ const getPendingRequest = (req, res, next) => {
   })
 }
 
+const getAllNewFundRequests = (req, res, next ) => {
+  Fund.find({
+      status: 'FUND_REQUESTED'
+  }, (err, funds) => {
+      if( err ) {
+        return res.status(500).json({
+            msg: "Internal Server error"
+        });
+      }
+      res.send( funds );
+  });
+}
+
 module.exports = {
   'validateFundRequest': validateFundRequest,
   'createFundRequest': createFundRequest,
-  'getPendingRequest': getPendingRequest
+  'getPendingRequest': getPendingRequest,
+  'getAllNewFundRequests': getAllNewFundRequests
 }

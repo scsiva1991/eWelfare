@@ -1,6 +1,6 @@
 "use strict";
 
-import { CREATE_FUND_REQUEST, GET_PENDING_REQUEST } from '../constants/actionTypes';
+import { CREATE_FUND_REQUEST, GET_PENDING_REQUEST, GET_NEW_FUND_REQUESTS } from '../constants/actionTypes';
 import fund from '../api/fund';
 
 export const addFundRequest = (fund={}) => {
@@ -27,8 +27,23 @@ export const pendingRequest = (fund={}) => {
 
 export const getPendingRequest = (user = {}) => {
   return dispatch => {
-    return fund.getPendingRequest(user).then((res) => {
+    return fund.getPendingRequest(user).then((res) => { 
       dispatch(pendingRequest(res));
     });
   }
 };
+
+export const newFundRequests = (funds=[]) => {
+  return {
+    type: GET_NEW_FUND_REQUESTS,
+    funds
+  }
+}
+
+export const getNewFundRequests = () => {
+  return dispatch => {
+    return fund.getNewFundRequests().then((res) => {
+      dispatch(newFundRequests(res));
+    });
+  }
+}
