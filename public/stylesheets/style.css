@@ -11,6 +11,11 @@ body {
   padding: 20px !important;
 }
 
+.fund-return-container {
+  margin: 100px auto;
+  padding: 20px !important;
+}
+
 .fund-request-container {
   padding: 20px !important;
 }
@@ -21,7 +26,7 @@ body {
   padding: 20px;
 }
 
-.fund-process-table { 
+.fund-process-table {
 }
 
 .custom_input:focus {

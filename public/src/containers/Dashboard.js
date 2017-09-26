@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import FundRequest from '../components/FundRequest';
 import FundReturn from '../components/FundReturn';
 import FundProcess from '../components/FundProcess';
+import PendingReport from '../components/PendingReport';
 import { connect } from 'react-redux';
 import { createFundRequest, getPendingRequest, getNewFundRequests } from '../actions/fundActions';
 import Loader from '../components/Loader';
@@ -54,16 +55,6 @@ class Dashboard extends Component {
     });
   }
 
-  s = () => {
-    console.log('@@@@@@@@@@@@');
-    this.props.getNewFundRequests().then(() => {
-      this.setState({ isLoading: false });
-    }, (err) => {
-      this.setState({ isLoading: false });
-    });
-  }
-
-
   render() {
     console.log( '-- dashboard --', this.props );
 
@@ -96,6 +87,12 @@ class Dashboard extends Component {
         <div>
           <FundProcess user={user}/>
         </div>
+      )
+    }
+
+    if( tabName == 'pendingReport' ) {
+      return(
+        <PendingReport/>
       )
     }
 

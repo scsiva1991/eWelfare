@@ -9,7 +9,7 @@ export default class FundStatus extends Component {
 
   render() {
     let {status, handleStatusChange, index} = this.props;
-
+    console.log('------ status ----------', status);
     let values = options.map((option, idx) => {
       return(
         <option key={idx} value={option.value} >{option.label}</option>

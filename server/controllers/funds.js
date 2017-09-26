@@ -1,6 +1,5 @@
 'use-strict';
 const mongoose = require('mongoose');
-
 const Fund = require('../models/funds');
 
 //Validate fund request before requesting
@@ -69,15 +68,27 @@ const createFundRequest = (req, res, next) => {
 const getPendingRequest = (req, res, next) => {
   console.log(req.params.id);
   Fund.findOne({
-    'createdBy.ownerId': mongoose.Types.ObjectId(req.params.id),
-    status: { $nin: [ "FUND_RETURNED", "FUND_ABORTED" ] }
-  }, (err, fund) => {
+    'createdBy.ownerId': mongoose.Types.ObjectId(req.params.id)
+  }).sort({ 'createdAt': 1}).exec((err, fund) => {
     if( err ) {
       return res.status(500).json({
           msg: "Internal Server error"
       });
     }
     res.send(fund);
+  });
+}
+
+const getAllPendingFunds = (req, res, next) => {
+  Fund.find({
+    status: "FUND_PROCESSED"
+  }, (err, funds) => {
+    if( err ) {
+      return res.status(500).json({
+          msg: "Internal Server error"
+      });
+    }
+    res.send(funds);
   })
 }
 
@@ -94,9 +105,40 @@ const getAllNewFundRequests = (req, res, next ) => {
   });
 }
 
+const updateFundRequests = ( req, res, next ) => {
+  console.log(Date.now())
+  let funds = req.body;
+  let bulk = Fund.collection.initializeOrderedBulkOp();
+  funds.forEach(function(fund){
+    bulk.find({"_id": mongoose.Types.ObjectId(fund._id)}).update({
+      "$currentDate": {
+          "updatedAt": true
+       },
+      "$set": {
+        "sanctionedAmount": fund.sanctionedAmount,
+        "sanctionedDate": fund.sanctionedDate,
+        "updatedBy": addCreator( req.user ),
+        "status": fund.status
+      }
+    });
+
+  });
+
+  bulk.execute(function(err,result) {
+     if( err ) {
+       return res.status(500).json({
+           msg: "Internal Server error"
+       });
+     }
+     res.send( result );
+  });
+}
+
 module.exports = {
   'validateFundRequest': validateFundRequest,
   'createFundRequest': createFundRequest,
   'getPendingRequest': getPendingRequest,
-  'getAllNewFundRequests': getAllNewFundRequests
+  'getAllNewFundRequests': getAllNewFundRequests,
+  'updateFundRequests': updateFundRequests,
+  'getAllPendingFunds': getAllPendingFunds
 }

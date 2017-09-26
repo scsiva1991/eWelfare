@@ -3,7 +3,7 @@ import moment from 'moment';
 import { withRouter } from 'react-router-dom';
 import InputText from './InputText';
 import { connect } from 'react-redux';
-import { getNewFundRequests } from '../actions/fundActions';
+import { getNewFundRequests, updateFundRequests } from '../actions/fundActions';
 import Loader from './Loader';
 import FundStatus from './FundStatus';
 import DatePicker from './DatePicker';
@@ -44,16 +44,24 @@ class FundProcess extends Component {
     this.setState({ funds });
   }
 
+  save = () => {
+    this.setState({ isLoading: true });
+    this.props.updateFundRequests(this.props.funds).then(() => {
+      this.setState({ isLoading: false });
+    }, (err) => {
+      this.setState({ isLoading: false });
+    });
+  }
+
   render() {
     console.log('- fund process -',this.props);
     let {funds, user} = this.props;
     let {isLoading} = this.state;
+    let dt = new Date();
 
-    funds = funds.map((fund) => {
-      return {
-        ...fund,
-        'status': 'FUND_PROCESSED'
-      }
+    this.props.funds.map((fund) => {
+        fund['status'] = 'FUND_PROCESSED';
+        funds['sanctionedDate'] = moment(dt, 'DD-MM-YYYY');
     })
 
     let rows = funds.map((fund, index) => {
@@ -81,13 +89,29 @@ class FundProcess extends Component {
       )
     });
 
+    if( funds.length == 0 ) {
+      return(
+        <div>
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col m2 s1"></div>
+              <div className="col m8 s10 card fund-request-received-container z-depth-5">
+                <h5> No new fund requests to process </h5>
+              </div>
+              <div className="col m2 s1"></div>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
     return(
       <div>
         {isLoading && <Loader/>}
         <div className="container-fluid">
           <div className="row card fund-process">
             <div className="col s12">
-              <a className="waves-effect waves-light btn right">
+              <a className="waves-effect waves-light btn right" onClick={this.save}>
                 <i className="material-icons right">save</i>
               Save</a>
             </div>
@@ -122,4 +146,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, {getNewFundRequests})(FundProcess));
+export default withRouter(connect(mapStateToProps, {getNewFundRequests, updateFundRequests})(FundProcess));
